@@ -1,0 +1,109 @@
+<div class="border w-[75%] mx-auto p-5 rounded-md shadow-md mt-5">
+  <h1 class="font-bold">Add Product</h1>
+  <hr class="my-3 border-2" />
+
+  <!-- Just Testing -->
+  <p class="my-3">Form Value: {{ productForm.value | json }}</p>
+  <p class="my-3">Form Validity: {{ productForm.valid }}</p>
+  <!-- End of Just Testing -->
+
+  <form
+    class="flex flex-col space-y-3"
+    (ngSubmit)="onSubmit()"
+    [formGroup]="productForm"
+  >
+    <div class="flex flex-col lg:flex-row">
+      <label class="mr-2 lg:w-[20%]" for="name">Product Name:</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="border border-gray-200 lg:w-[80%] shadow-md py-1 px-2"
+        placeholder="Product Name"
+      />
+    </div>
+    <div class="lg:ml-[20%] pl-2" *ngIf="productForm.get('name')?.errors">
+      <p
+        class="text-sm text-red-500 mt-2 mb-2"
+        *ngIf="
+          productForm.get('name')?.touched ||
+          (productForm.get('name')?.dirty && !productForm.get('name')?.valid)
+        "
+      >
+        Product Name is required.
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row">
+      <label class="mr-2 lg:w-[20%]" for="name">Category:</label>
+      <input
+        id="category"
+        type="text"
+        formControlName="category"
+        class="border border-gray-200 lg:w-[80%] shadow-md py-1 px-2"
+        placeholder="Category"
+      />
+    </div>
+    <div class="lg:ml-[20%] pl-2" *ngIf="productForm.get('category')?.errors">
+      <p
+        class="text-sm text-red-500 mt-2 mb-2"
+        *ngIf="
+          productForm.get('category')?.touched ||
+          (productForm.get('category')?.dirty &&
+            !productForm.get('category')?.valid)
+        "
+      >
+        Category is required.
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row">
+      <label class="mr-2 lg:w-[20%]" for="name">Price:</label>
+      <input
+        id="price"
+        type="number"
+        formControlName="price"
+        class="border border-gray-200 lg:w-[80%] shadow-md py-1 px-2"
+        placeholder="Price"
+      />
+    </div>
+    <div class="lg:ml-[20%] pl-2" *ngIf="productForm.get('price')?.errors">
+      <p
+        class="text-sm text-red-500 mt-2 mb-2"
+        *ngIf="
+          productForm.get('price')?.touched ||
+          (productForm.get('price')?.dirty && !productForm.get('price')?.valid)
+        "
+      >
+        Price is required.
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row">
+      <label class="mr-2 lg:w-[20%]" for="name">Product Description:</label>
+      <input
+        id="description"
+        type="text"
+        formControlName="description"
+        class="border border-gray-200 lg:w-[80%] shadow-md py-1 px-2"
+        placeholder="Description"
+      />
+    </div>
+
+    <div class="flex gap-3">
+      <button
+        [disabled]="!productForm.valid"
+        class="py-2 px-4 bg-slate-900 text-white rounded-md w-fit mt-5 hover:bg-slate-900/80 disabled:cursor-not-allowed disabled:opacity-50"
+        type="submit"
+      >
+        Submit</button
+      ><button
+        class="py-2 px-4 bg-red-700 text-white rounded-md w-fit mt-5 hover:bg-red-700/80"
+        (click)="cancel()"
+        type="button"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

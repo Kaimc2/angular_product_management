@@ -1,14 +1,13 @@
-import { Component, effect, inject, signal } from '@angular/core';
-import { AuthService } from './shared/services/auth.service';
+import { Component, inject, signal } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { User } from '@angular/fire/auth';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss',
 })
-export class AppComponent {
-  title = 'product_management';
+export class NavbarComponent {
   private auth = inject(AuthService);
 
   user = signal<User | null>(this.auth.getAuthLocal());

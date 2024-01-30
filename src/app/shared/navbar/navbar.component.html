@@ -1,0 +1,41 @@
+<ul class="hidden md:flex items-center gap-10">
+  <li>
+    <a class="navbar" routerLink="/home" routerLinkActive="navbar-active"
+      >Home</a
+    >
+  </li>
+  <li>
+    <a
+      class="navbar"
+      routerLink="/products"
+      routerLinkActive="navbar-active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Products</a
+    >
+  </li>
+  <li *ngIf="isLoggedIn()">
+    <a
+      class="navbar"
+      routerLink="/products/create"
+      routerLinkActive="navbar-active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Add Product</a
+    >
+  </li>
+  <li>
+    <a class="navbar" routerLink="/cart" routerLinkActive="navbar-active"
+      >Cart</a
+    >
+  </li>
+  <li *ngIf="!isLoggedIn()">
+    <button class="navbar" (click)="login()">Login</button>
+  </li>
+  <li *ngIf="isLoggedIn()">
+    <a class="navbar" routerLink="/dashboard" routerLinkActive="navbar-active">
+      <p>{{ user()!.displayName }}</p>
+    </a>
+  </li>
+  <li *ngIf="isLoggedIn()">
+    <button class="navbar" (click)="logout()">Logout</button>
+  </li>
+</ul>
