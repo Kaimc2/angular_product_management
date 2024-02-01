@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../../shared/services/firestore.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-product-create',
@@ -12,8 +13,10 @@ export class ProductCreateComponent implements OnInit {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private firebase = inject(FirestoreService);
+  private auth = inject(AuthService);
 
   productForm!: FormGroup;
+  formSubmitted = false;
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
@@ -25,8 +28,12 @@ export class ProductCreateComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.productForm.value);
-    this.firebase.createProduct(this.productForm.value);
+    // console.log(this.productForm.value);
+    this.firebase.createProduct({
+      ...this.productForm.value,
+      ownerId: this.auth.getAuthFire()?.uid,
+    });
+    this.formSubmitted = true;
   }
 
   cancel(): void {

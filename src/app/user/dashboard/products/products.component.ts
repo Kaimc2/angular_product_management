@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FirestoreService } from '../../shared/services/firestore.service';
-import { Product } from '../../products/product';
-import { Subscription } from 'rxjs';
-import Notiflix from 'notiflix';
-import { AuthService } from '../../shared/services/auth.service';
+import { Component, inject } from '@angular/core';
+import { FirestoreService } from '../../../shared/services/firestore.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Product } from '../../../products/product';
+import Notiflix from 'notiflix';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss',
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class ProductsComponent {
   private firebase = inject(FirestoreService);
   private auth = inject(AuthService);
   private router = inject(Router);

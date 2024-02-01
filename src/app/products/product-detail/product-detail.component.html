@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div *ngIf="product" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-6">
     <div class="w-full md:w-1/2">
       <img
@@ -19,6 +19,7 @@
         {{ product.description }}
       </p>
       <button
+        (click)="addToCart(product)"
         class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-slate-900 text-white hover:bg-slate-900/90 h-11 rounded-md px-8 w-full"
       >
         Add to Cart
@@ -27,11 +28,86 @@
   </div>
 
   <div class="mt-12">
-    <h2 class="text-2xl font-bold">Customer Reviews</h2>
-    <div class="mt-4">
-      <app-product-reviews></app-product-reviews>
-      <app-product-reviews></app-product-reviews>
-      <app-product-reviews></app-product-reviews>
+    <h2 class="flex items-center gap-2 text-2xl font-bold">
+      Customer Reviews
+      <span
+        *ngIf="product.reviews?.length"
+        class="bg-slate-900 text-white p-2 px-3 rounded-md text-sm"
+      >
+        {{ product.reviews?.length == 0 ? "" : product.reviews?.length }}
+      </span>
+    </h2>
+
+    <!-- Review Input Component -->
+    <button
+      *ngIf="!isWriting; else writingMode"
+      class="w-full shadow-md border p-2 mt-2 rounded"
+      (click)="toggleWritingMode()"
+    >
+      Write a review.
+    </button>
+
+    <ng-template #writingMode>
+      <form class="flex flex-col my-2" (ngSubmit)="onSubmit()" #reviewForm>
+        <div class="flex items-center gap-1 mb-3">
+          <p>Ratings:</p>
+          <star-icon (click)="setRating(1)" [class]="isRated(1)" />
+          <star-icon (click)="setRating(2)" [class]="isRated(2)" />
+          <star-icon (click)="setRating(3)" [class]="isRated(3)" />
+          <star-icon (click)="setRating(4)" [class]="isRated(4)" />
+          <star-icon (click)="setRating(5)" [class]="isRated(5)" />
+        </div>
+        <input
+          class="py-2 px-4 shadow-md border"
+          type="text"
+          placeholder="Write something..."
+          name="message"
+          [(ngModel)]="review.message"
+          #message="ngModel"
+          required
+        />
+        <div
+          [hidden]="message.valid || message.pristine"
+          class="mt-2 text-sm text-red-500"
+        >
+          Message is required
+        </div>
+
+        <div class="flex gap-2 mt-4">
+          <button
+            [disabled]="!message.valid"
+            class="py-2 px-4 rounded-md bg-slate-900 text-white hover:bg-slate-900/90 disabled:opacity-70 disabled:cursor-not-allowed"
+            type="submit"
+          >
+            Confirm
+          </button>
+          <button
+            class="py-2 px-4 rounded-md bg-slate-900 text-white hover:bg-slate-900/90"
+            (click)="toggleWritingMode()"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </ng-template>
+    <!-- End of Review Input Component -->
+
+    <!-- Reviews -->
+    <div *ngIf="product.reviews?.length; else reviewsElse" class="mt-4">
+      <ng-container *ngFor="let review of product.reviews">
+        <app-product-reviews
+          (refect)="refectData($event)"
+          [review]="review"
+        ></app-product-reviews>
+      </ng-container>
     </div>
+
+    <ng-template #reviewsElse>
+      <div class="shadow-md border p-4 mt-2 rounded">
+        No Reviews yet! Be the first one.
+      </div>
+    </ng-template>
+    <!-- End of Reviews -->
   </div>
 </div>

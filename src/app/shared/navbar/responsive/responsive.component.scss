@@ -1,0 +1,7 @@
+.navbar {
+  @apply flex w-full h-full justify-center items-center text-gray-400;
+}
+
+.navbar-active {
+  @apply shadow-md border border-b-gray-300 text-gray-600;
+}
