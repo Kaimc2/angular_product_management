@@ -37,6 +37,10 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+  isAuth() {
+    return this.auth.isLoggedIn();
+  }
+
   onSubmit() {
     const id = String(this.route.snapshot.paramMap.get('id'));
     const currentUser = this.auth.getAuthLocal();

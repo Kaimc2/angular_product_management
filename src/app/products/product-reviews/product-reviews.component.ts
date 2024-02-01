@@ -49,6 +49,10 @@ export class ProductReviewsComponent {
   }
 
   ownReview() {
-    return this.review?.username == this.auth.getAuthLocal().displayName;
+    if (this.auth.isLoggedIn()) {
+      return this.review?.username == this.auth.getAuthLocal().displayName;
+    } else {
+      return false;
+    }
   }
 }

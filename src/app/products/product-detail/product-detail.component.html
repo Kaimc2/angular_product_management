@@ -42,9 +42,10 @@
     <button
       *ngIf="!isWriting; else writingMode"
       class="w-full shadow-md border p-2 mt-2 rounded"
+      [disabled]="!isAuth()"
       (click)="toggleWritingMode()"
     >
-      Write a review.
+      {{ isAuth() ? "Write a review." : "Login to write a review." }}
     </button>
 
     <ng-template #writingMode>
