@@ -17,9 +17,20 @@ import { AuthService } from './shared/services/auth.service';
 import { IconModule } from './shared/icons/icons.module';
 import { DashboardComponent } from './user/dashboard/dashboard.component';
 import { SharedModule } from './shared/shared.module';
+import { CartComponent } from './cart/cart.component';
+import { FormsModule } from '@angular/forms';
+import { ProductsComponent } from './user/dashboard/products/products.component';
+import { AccountComponent } from './user/dashboard/account/account.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, DashboardComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CartComponent,
+    DashboardComponent,
+    ProductsComponent,
+    AccountComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,
@@ -27,6 +38,7 @@ import { SharedModule } from './shared/shared.module';
     provideFirestore(() => getFirestore()),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    FormsModule,
     IconModule,
     SharedModule,
     ProductsModule,

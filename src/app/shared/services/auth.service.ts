@@ -37,7 +37,7 @@ export class AuthService {
     return this.auth.currentUser;
   }
 
-  getAuthLocal() {
+  getAuthLocal(): User {
     const token = localStorage.getItem('user');
     const user = JSON.parse(token as string);
     return user;
@@ -57,5 +57,6 @@ export class AuthService {
 
   logout() {
     signOut(this.auth).then(() => this.router.navigate(['/home']));
+    localStorage.removeItem('user');
   }
 }

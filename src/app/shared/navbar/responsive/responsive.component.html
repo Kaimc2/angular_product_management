@@ -1,0 +1,88 @@
+<div class="flex gap-10 md:hidden">
+  <a class="relative" routerLink="/cart">
+    <span
+      class="absolute text-[12px] leading-5 -right-3 -top-2 bg-red-500 rounded-full text-center text-white w-[20px] h-[20px]"
+      >{{ cartCount() }}</span
+    >
+    <cart-icon />
+  </a>
+  <bar3-icon class="hover:cursor-pointer" (click)="toggleSidebar()" />
+
+  <div
+    tabindex="0"
+    class="fixed w-[60%] h-full transition-opacity duration-300 ease-in-out top-0 right-0 z-50 bg-white"
+    [style.opacity]="isOpened ? '100%' : '0%'"
+    [style.pointer-events]="isOpened ? '' : 'none'"
+  >
+    <div class="flex justify-between items-center shadow-md h-[4.25rem] pl-3">
+      <close-icon class="hover:cursor-pointer" (click)="toggleSidebar()" />
+
+      <div class="flex items-center gap-10">
+        <a class="relative" routerLink="/cart">
+          <span
+            class="absolute text-[12px] leading-5 -right-3 -top-2 bg-red-500 rounded-full text-center text-white w-[20px] h-[20px]"
+            >{{ cartCount() }}</span
+          >
+          <cart-icon />
+        </a>
+        <a class="mr-6" routerLink="/dashboard">
+          <img
+            class="w-10 h-10 rounded-full"
+            [src]="user()?.photoURL ?? '/assets/pf.png'"
+            alt="profile"
+          />
+        </a>
+      </div>
+    </div>
+    <ul class="flex flex-col items-center justify-center">
+      <li class="w-full h-10">
+        <a class="navbar" routerLink="/home" routerLinkActive="navbar-active"
+          >Home</a
+        >
+      </li>
+      <li class="w-full h-10">
+        <a
+          class="navbar"
+          routerLink="/products"
+          routerLinkActive="navbar-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Products</a
+        >
+      </li>
+      <li class="w-full h-10" *ngIf="isLoggedIn()">
+        <a
+          class="navbar"
+          routerLink="/products/create"
+          routerLinkActive="navbar-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Add Product</a
+        >
+      </li>
+      <li class="w-full h-10" *ngIf="!isLoggedIn()">
+        <button class="navbar" (click)="login()">Login</button>
+      </li>
+      <li class="w-full h-10" *ngIf="isLoggedIn()">
+        <a
+          class="navbar"
+          routerLink="/dashboard"
+          routerLinkActive="navbar-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="w-full h-10" *ngIf="onDashboardUrl()">
+        <a
+          class="navbar"
+          routerLink="/dashboard/account"
+          routerLinkActive="navbar-active"
+        >
+          <p>Account</p>
+        </a>
+      </li>
+      <li class="w-full h-10" *ngIf="isLoggedIn()">
+        <button class="navbar" (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</div>

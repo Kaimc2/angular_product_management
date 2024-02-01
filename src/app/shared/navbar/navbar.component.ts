@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { User } from '@angular/fire/auth';
+import { CartService } from '../../cart/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,11 +10,11 @@ import { User } from '@angular/fire/auth';
 })
 export class NavbarComponent {
   private auth = inject(AuthService);
+  private cartService = inject(CartService);
 
   user = signal<User | null>(this.auth.getAuthLocal());
   isLoggedIn = signal(this.auth.isLoggedIn());
-
-  // eUser = effect(() => console.log(this.user()));
+  cartCount = this.cartService.cartCount;
 
   login() {
     this.auth.loginWithGoogle().then(() => {

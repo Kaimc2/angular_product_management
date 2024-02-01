@@ -3,6 +3,8 @@ import { FirestoreService } from '../../shared/services/firestore.service';
 import { Router } from '@angular/router';
 import { Product } from '../product';
 import { Subscription } from 'rxjs';
+import { CartService } from '../../cart/cart.service';
+import { Confirm, Loading } from 'notiflix';
 
 @Component({
   selector: 'app-products-list',
@@ -12,15 +14,21 @@ import { Subscription } from 'rxjs';
 export class ProductsListComponent implements OnInit, OnDestroy {
   private firebase = inject(FirestoreService);
   private router = inject(Router);
+  private cartService = inject(CartService);
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
   sub!: Subscription;
+  loading = false;
 
   ngOnInit(): void {
+    this.loading = true;
+    Loading.dots();
     this.sub = this.firebase.getProducts().subscribe((data: Product[]) => {
       this.products = data;
       this.filteredProducts = this.products;
+      this.loading = false;
+      Loading.remove();
     });
   }
 
@@ -53,7 +61,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  addToCart(): void {
-    console.log('Add to cart lol');
+  addToCart(product: Product): void {
+    this.cartService.updateCart(product);
   }
 }

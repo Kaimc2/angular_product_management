@@ -9,11 +9,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 import { IconModule } from '../shared/icons/icons.module';
+import { ProductEditComponent } from './product-edit/product-edit.component';
 
 @NgModule({
   declarations: [
     ProductsListComponent,
     ProductCreateComponent,
+    ProductEditComponent,
     ProductDetailComponent,
     ProductReviewsComponent,
   ],

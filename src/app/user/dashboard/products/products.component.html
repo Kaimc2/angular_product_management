@@ -1,0 +1,141 @@
+<header
+  class="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40"
+>
+  <div class="w-full flex-1">
+    <form>
+      <div class="relative">
+        <search-icon class="absolute left-2.5 top-2.5" />
+        <input
+          class="flex h-10 rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
+          [(ngModel)]="search"
+          name="search"
+          placeholder="Search..."
+          type="search"
+        />
+      </div>
+    </form>
+  </div>
+</header>
+<main class="flex flex-1 flex-col gap-4 p-4 overflow-x-hidden md:gap-8 md:p-6">
+  <div class="flex items-center">
+    <h1 class="font-semibold text-lg md:text-2xl">Products</h1>
+  </div>
+  <div class="border shadow-sm rounded-lg"></div>
+
+  <div *ngIf="loading; else dataLoad"></div>
+
+  <ng-template #dataLoad>
+    <div
+      *ngIf="filteredProducts.length; else noFilteredElse"
+      class="border shadow-sm rounded-lg"
+    >
+      <div class="relative w-full overflow-auto">
+        <table class="w-full caption-bottom text-sm">
+          <thead class="[&amp;_tr]:border-b">
+            <tr
+              class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+            >
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Product Name
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 min-w-[150px]"
+              >
+                Category
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell"
+              >
+                Price
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell"
+              >
+                Description
+              </th>
+              <th
+                class="h-12 px-4 align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-right"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            *ngFor="let product of filteredProducts"
+            class="[&amp;_tr:last-child]:border-0"
+          >
+            <tr
+              class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+            >
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+              >
+                <a
+                  class="text-blue-500 hover:underline"
+                  [routerLink]="['/products', product.id]"
+                >
+                  {{ product.name }}
+                </a>
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                {{ product.category }}
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell"
+              >
+                {{ product.price > 0 ? (product.price | currency) : "Free" }}
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell"
+              >
+                {{
+                  product.description!.length > 100
+                    ? product.description?.slice(0, 100) + "..."
+                    : product.description
+                }}
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-right"
+              >
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                  type="button"
+                  id="radix-:r4i:"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  data-state="closed"
+                  title="Edit"
+                  (click)="editProduct(product.id)"
+                >
+                  <edit-icon class="hover:opacity-50" />
+                  <span class="sr-only">Actions</span>
+                </button>
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                  type="button"
+                  id="radix-:r4i:"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  data-state="closed"
+                  title="Delete"
+                  (click)="deleteProduct(product)"
+                >
+                  <delete-icon class="hover:opacity-50" />
+                  <span class="sr-only">Actions</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #noFilteredElse>
+    <div class="border shadow-md p-4 rounded">
+      No items found by the name "{{ search }}"
+    </div>
+  </ng-template>
+</main>

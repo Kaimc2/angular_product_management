@@ -23,9 +23,17 @@
     >
   </li>
   <li>
-    <a class="navbar" routerLink="/cart" routerLinkActive="navbar-active"
-      >Cart</a
+    <a
+      class="relative navbar"
+      routerLink="/cart"
+      routerLinkActive="navbar-active"
     >
+      <span
+        class="absolute text-[12px] leading-5 -right-3 -top-2 bg-red-500 rounded-full text-center text-white w-[20px] h-[20px]"
+        >{{ cartCount() }}</span
+      >
+      <cart-icon />
+    </a>
   </li>
   <li *ngIf="!isLoggedIn()">
     <button class="navbar" (click)="login()">Login</button>
